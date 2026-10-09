@@ -1,0 +1,367 @@
+{% extends "bias_analyzer/base.html" %}
+
+{% block title %}Analysis: {{ review.title }} | SDG 5 Reviewer{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+    <!-- Top Action Breadcrumb & Title Bar -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <div>
+            <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+                <a href="{% url 'bias_analyzer:index' %}" class="hover:text-rose-600 transition-colors">Analyzer</a>
+                <span>/</span>
+                <span class="text-rose-600">Audit Report #{{ review.id }}</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                {{ review.title }}
+            </h1>
+            <p class="text-xs text-slate-500 mt-1 flex items-center gap-2">
+                <i class="fa-regular fa-clock"></i> Analyzed on {{ review.created_at|date:"F j, Y - H:i" }} UTC
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+            <a href="{% url 'bias_analyzer:index' %}" class="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-xl text-sm font-semibold transition-all shadow-xs flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left text-xs"></i> New Scan
+            </a>
+            <button onclick="window.print()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-semibold transition-all shadow-xs flex items-center gap-2">
+                <i class="fa-solid fa-print text-xs"></i> Export Report
+            </button>
+        </div>
+    </div>
+
+    <!-- Primary Scoreboard Overview Card -->
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xl shadow-slate-200/50 p-6 sm:p-8 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Circular SVG Score Gauge -->
+            <div class="lg:col-span-4 flex flex-col items-center justify-center p-4 border-b lg:border-b-0 lg:border-r border-slate-200">
+                <div class="relative w-44 h-44 flex items-center justify-center">
+                    <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 100 100">
+                        <!-- Background Circle -->
+                        <circle cx="50" cy="50" r="42" 
+                                class="text-slate-100" stroke-width="10" stroke="currentColor" fill="transparent" />
+                        <!-- Progress Circle -->
+                        <circle cx="50" cy="50" r="42" 
+                                class="{% if review.neutrality_score >= 90 %}text-emerald-500{% elif review.neutrality_score >= 70 %}text-blue-500{% elif review.neutrality_score >= 50 %}text-amber-500{% else %}text-rose-500{% endif %} transition-all duration-1000 ease-out" 
+                                stroke-width="10" 
+                                stroke-dasharray="263.89" 
+                                stroke-dashoffset="{{ dash_offset }}" 
+                                stroke-linecap="round" 
+                                stroke="currentColor" 
+                                fill="transparent" />
+                    </svg>
+                    <div class="absolute flex flex-col items-center justify-center text-center">
+                        <span class="text-4xl font-extrabold text-slate-900 tracking-tight leading-none">
+                            {{ review.neutrality_score }}%
+                        </span>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mt-1">
+                            Neutrality Index
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Qualitative Status Pill -->
+                <div class="mt-4 text-center">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border {{ review.bias_severity|yesno:'' }} {% if review.neutrality_score >= 90 %}bg-emerald-50 text-emerald-800 border-emerald-300{% elif review.neutrality_score >= 70 %}bg-blue-50 text-blue-800 border-blue-300{% elif review.neutrality_score >= 50 %}bg-amber-50 text-amber-800 border-amber-300{% else %}bg-rose-50 text-rose-800 border-rose-300{% endif %}">
+                        <i class="fa-solid fa-circle text-[8px]"></i>
+                        {{ review.bias_severity }}
+                    </span>
+                    <p class="text-xs text-slate-500 mt-1.5">
+                        Direction: <strong>{{ review.bias_direction }}</strong>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quantitative Linguistic Metrics Breakdown -->
+            <div class="lg:col-span-8 space-y-6">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 mb-1">
+                        Linguistic Density & Word Balance Breakdown
+                    </h3>
+                    <p class="text-xs text-slate-500">
+                        Evaluated across <strong>{{ review.total_words }}</strong> total words. Coded words reflect subconscious gender associations that affect candidate application likelihood.
+                    </p>
+                </div>
+
+                <!-- Density Comparison Bars -->
+                <div class="space-y-4">
+                    <!-- Masculine Density Bar -->
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-semibold mb-1">
+                            <span class="text-blue-700 flex items-center gap-1.5">
+                                <i class="fa-solid fa-mars"></i> Masculine-Coded Terms
+                            </span>
+                            <span class="text-slate-700">
+                                {{ review.masculine_count }} words ({{ review.masculine_density }}% density)
+                            </span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                            <div class="bg-blue-600 h-3 rounded-full transition-all duration-700" style="width: {% if review.masculine_density > 100 %}100{% else %}{{ review.masculine_density|floatformat:1 }}{% endif %}%"></div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-1">
+                            Terms associated with aggressive competition, individual hierarchy, and bravado.
+                        </p>
+                    </div>
+
+                    <!-- Feminine Density Bar -->
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-semibold mb-1">
+                            <span class="text-purple-700 flex items-center gap-1.5">
+                                <i class="fa-solid fa-venus"></i> Feminine-Coded Terms
+                            </span>
+                            <span class="text-slate-700">
+                                {{ review.feminine_count }} words ({{ review.feminine_density }}% density)
+                            </span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                            <div class="bg-purple-600 h-3 rounded-full transition-all duration-700" style="width: {% if review.feminine_density > 100 %}100{% else %}{{ review.feminine_density|floatformat:1 }}{% endif %}%"></div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-1">
+                            Terms associated with caretaking, accommodation, and communal support.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Stat Badges -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                        <span class="block text-xl font-bold text-slate-900">{{ review.total_words }}</span>
+                        <span class="text-[11px] font-medium text-slate-500">Total Words</span>
+                    </div>
+                    <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-200 text-center">
+                        <span class="block text-xl font-bold text-blue-700">{{ review.masculine_count }}</span>
+                        <span class="text-[11px] font-medium text-blue-800">Masculine Terms</span>
+                    </div>
+                    <div class="bg-purple-50/60 p-3 rounded-xl border border-purple-200 text-center">
+                        <span class="block text-xl font-bold text-purple-700">{{ review.feminine_count }}</span>
+                        <span class="text-[11px] font-medium text-purple-800">Feminine Terms</span>
+                    </div>
+                    <div class="bg-emerald-50/60 p-3 rounded-xl border border-emerald-200 text-center">
+                        <span class="block text-xl font-bold text-emerald-700">{{ analysis.flagged_terms|length }}</span>
+                        <span class="text-[11px] font-medium text-emerald-800">Unique Flagged</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Interactive Text View Tabs -->
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-200/40 overflow-hidden mb-8">
+        
+        <!-- Tab Headers -->
+        <div class="border-b border-slate-200 bg-slate-50/80 px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <button type="button" 
+                        onclick="switchTab('highlighted')" 
+                        id="tab-btn-highlighted"
+                        class="px-4 py-2 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs border border-slate-200 transition-all">
+                    <i class="fa-solid fa-highlighter text-rose-500 mr-1.5"></i> Annotated View
+                </button>
+                <button type="button" 
+                        onclick="switchTab('revised')" 
+                        id="tab-btn-revised"
+                        class="px-4 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition-all">
+                    <i class="fa-solid fa-sparkles text-emerald-600 mr-1.5"></i> Inclusive Revised Text
+                </button>
+            </div>
+
+            <!-- Copy Action -->
+            <div>
+                <button type="button" 
+                        onclick="copyRevisedText()" 
+                        id="copy-btn"
+                        class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors flex items-center gap-1.5">
+                    <i class="fa-regular fa-copy"></i>
+                    <span id="copy-btn-text">Copy Inclusive Version</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab 1: Annotated View -->
+        <div id="tab-content-highlighted" class="p-6 sm:p-8">
+            <div class="flex items-center gap-4 text-xs font-semibold mb-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="text-slate-500">Legend:</span>
+                <span class="inline-flex items-center gap-1.5 bg-blue-100 text-blue-900 border border-blue-300 px-2 py-0.5 rounded">
+                    <span class="w-2 h-2 rounded-full bg-blue-600"></span> Masculine-Coded
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-purple-100 text-purple-900 border border-purple-300 px-2 py-0.5 rounded">
+                    <span class="w-2 h-2 rounded-full bg-purple-600"></span> Feminine-Coded
+                </span>
+                <span class="text-slate-400 ml-auto hidden sm:inline">Hover on flagged words to inspect replacements</span>
+            </div>
+
+            <div class="prose max-w-none text-slate-800 text-sm leading-relaxed font-sans bg-slate-50/40 p-6 rounded-xl border border-slate-200 min-h-[220px]">
+                {{ analysis.highlighted_html|safe }}
+            </div>
+        </div>
+
+        <!-- Tab 2: Clean Revised View -->
+        <div id="tab-content-revised" class="p-6 sm:p-8 hidden">
+            <div class="mb-4 p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-800 flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                <span>This version replaces exclusionary and gender-skewed wording with research-recommended inclusive alternatives.</span>
+            </div>
+
+            <textarea id="revised-textarea" readonly rows="12" class="w-full p-4 rounded-xl border border-slate-300 bg-white font-sans text-sm text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-inner resize-y">{{ review.revised_text }}</textarea>
+        </div>
+
+    </div>
+
+    <!-- Flagged Terms & Suggested Replacements Catalog -->
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-lg shadow-slate-200/40 p-6 sm:p-8 mb-8">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+            <div>
+                <h3 class="text-lg font-bold text-slate-900">
+                    Flagged Words & Concrete Inclusive Replacements
+                </h3>
+                <p class="text-xs text-slate-500">
+                    Actionable alternatives curated to uphold technical rigor while appealing equally to all genders.
+                </p>
+            </div>
+            <span class="px-3 py-1 bg-slate-100 text-slate-700 font-semibold text-xs rounded-lg">
+                {{ analysis.flagged_terms|length }} flagged term categories
+            </span>
+        </div>
+
+        {% if analysis.flagged_terms %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for item in analysis.flagged_terms %}
+            <div class="p-4 rounded-xl border {% if item.category == 'masculine' %}border-blue-200 bg-blue-50/30{% else %}border-purple-200 bg-purple-50/30{% endif %} hover:shadow-md transition-shadow">
+                
+                <!-- Word Header -->
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base font-bold {% if item.category == 'masculine' %}text-blue-900{% else %}text-purple-900{% endif %}">
+                            "{{ item.base_word }}"
+                        </span>
+                        <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full {% if item.category == 'masculine' %}bg-blue-100 text-blue-800 border border-blue-300{% else %}bg-purple-100 text-purple-800 border border-purple-300{% endif %}">
+                            {{ item.category }}
+                        </span>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                        {{ item.count }} &times; in text
+                    </span>
+                </div>
+
+                <!-- Psychological Context / Reason -->
+                <p class="text-xs text-slate-600 mb-3 leading-normal">
+                    <strong class="text-slate-700">Why flagged:</strong> {{ item.reason }}
+                </p>
+
+                <!-- Suggested Replacements -->
+                <div>
+                    <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                        Recommended Replacements:
+                    </span>
+                    <div class="flex flex-wrap gap-1.5">
+                        {% for rep in item.replacements %}
+                        <span class="inline-flex items-center gap-1 text-xs font-medium bg-white text-slate-800 border border-slate-300 px-2.5 py-1 rounded-lg shadow-2xs hover:border-emerald-500 hover:text-emerald-700 transition-colors">
+                            <i class="fa-solid fa-arrow-right text-[10px] text-emerald-600"></i> {{ rep }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-10 bg-emerald-50/60 rounded-xl border border-emerald-200">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h4 class="text-base font-bold text-emerald-900">Exemplary Language Balance!</h4>
+            <p class="text-xs text-emerald-700 mt-1 max-w-md mx-auto">
+                No heavily gender-coded words or exclusionary tech tropes were detected in this posting.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- SDG 5 Hiring Guidelines / Action Checklist -->
+    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 sm:p-8 shadow-xl">
+        <div class="flex items-center gap-3 mb-4">
+            <span class="bg-rose-600 text-white font-extrabold text-xs px-2.5 py-1 rounded shadow-sm">
+                SDG 5 Guide
+            </span>
+            <h3 class="text-lg font-bold">Best Practices for Gender-Neutral Job Descriptions</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-300">
+            <div class="space-y-1.5">
+                <div class="font-semibold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-check text-rose-500"></i> 1. Focus on Outcomes, Not Traits
+                </div>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Instead of asking for "aggressive leaders", specify tangible deliverables like "deliver REST API endpoints and scale data pipelines".
+                </p>
+            </div>
+            <div class="space-y-1.5">
+                <div class="font-semibold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-check text-rose-500"></i> 2. Remove Superhero Tropes
+                </div>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Phrases like "ninja", "rockstar", and "code wizard" signal an exclusionary boy's-club culture and alienate diverse technical talent.
+                </p>
+            </div>
+            <div class="space-y-1.5">
+                <div class="font-semibold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-check text-rose-500"></i> 3. Distinguish Must-Have vs Nice-to-Have
+                </div>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Research shows men apply when meeting ~60% of qualifications, while women apply only when meeting 100%. Keep core requirements concise.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function switchTab(tab) {
+        const highlightedBtn = document.getElementById('tab-btn-highlighted');
+        const revisedBtn = document.getElementById('tab-btn-revised');
+        const highlightedContent = document.getElementById('tab-content-highlighted');
+        const revisedContent = document.getElementById('tab-content-revised');
+
+        if (tab === 'highlighted') {
+            highlightedBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs border border-slate-200 transition-all';
+            revisedBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition-all';
+            highlightedContent.classList.remove('hidden');
+            revisedContent.classList.add('hidden');
+        } else {
+            revisedBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs border border-slate-200 transition-all';
+            highlightedBtn.className = 'px-4 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition-all';
+            revisedContent.classList.remove('hidden');
+            highlightedContent.classList.add('hidden');
+        }
+    }
+
+    function copyRevisedText() {
+        const textarea = document.getElementById('revised-textarea');
+        const copyBtnText = document.getElementById('copy-btn-text');
+        if (!textarea) return;
+
+        navigator.clipboard.writeText(textarea.value).then(() => {
+            const originalText = copyBtnText.innerText;
+            copyBtnText.innerText = "Copied to Clipboard!";
+            setTimeout(() => {
+                copyBtnText.innerText = originalText;
+            }, 2000);
+        }).catch(err => {
+            // Fallback for older browsers
+            textarea.select();
+            document.execCommand('copy');
+            copyBtnText.innerText = "Copied!";
+            setTimeout(() => {
+                copyBtnText.innerText = "Copy Inclusive Version";
+            }, 2000);
+        });
+    }
+</script>
+{% endblock %}

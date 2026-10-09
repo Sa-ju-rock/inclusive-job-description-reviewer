@@ -1,0 +1,32 @@
+/* Custom styling for EquiText SDG 5 Bias-Free Job Description Reviewer */
+
+/* Tooltip micro-animations */
+mark {
+    position: relative;
+    text-decoration: none;
+}
+
+mark:hover {
+    filter: brightness(0.96);
+}
+
+/* Print Stylesheet for Hiring Managers & Audit Reports */
+@media print {
+    header, footer, .no-print, button, a[href*="delete"] {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 11pt !important;
+    }
+
+    .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm {
+        box-shadow: none !important;
+    }
+
+    border {
+        border-color: #cbd5e1 !important;
+    }
+}

@@ -1,0 +1,111 @@
+{% extends "bias_analyzer/base.html" %}
+
+{% block title %}About UN SDG 5 & Research Methodology | EquiText{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider mb-3">
+            <i class="fa-solid fa-ribbon text-red-600"></i> United Nations Sustainable Development Goals
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            SDG 5: Gender Equality in the Workforce
+        </h1>
+        <p class="mt-3 text-base text-slate-600 max-w-2xl mx-auto">
+            Understanding the linguistic barrier between underrepresented talent and leadership or STEM roles.
+        </p>
+    </div>
+
+    <!-- The Problem Statement Box -->
+    <div class="bg-gradient-to-br from-rose-50 to-red-50 border border-rose-200 rounded-2xl p-6 sm:p-8 mb-10 shadow-sm">
+        <h2 class="text-lg font-bold text-rose-950 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-rose-600"></i> The Problem Statement
+        </h2>
+        <p class="text-slate-800 text-sm leading-relaxed mb-4">
+            <em>"Unconscious gender bias in job descriptions prevents diverse talent from applying to technical roles."</em>
+        </p>
+        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            Decades of occupational psychology research reveal that job descriptions are rarely neutral. Words commonly used in technical postings (such as <em>"dominant"</em>, <em>"ninja"</em>, <em>"competitive"</em>, or <em>"crush"</em>) activate agentic masculine stereotypes. Even when women hold identical technical qualifications, they perceive themselves as less likely to belong in organizations using these terms, substantially dampening female application rates in technical and executive pipelines.
+        </p>
+    </div>
+
+    <!-- Academic Research Reference -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 mb-10 shadow-sm space-y-6">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-book-bookmark text-rose-600"></i> Research Foundation: Gaucher et al. (2011)
+        </h3>
+        
+        <div class="p-4 bg-slate-50 border-l-4 border-rose-600 rounded-r-xl text-xs sm:text-sm text-slate-700 italic">
+            "Evidence That Gendered Wording in Job Advertisements Exists and Sustains Gender Inequality."<br>
+            <span class="text-slate-500 font-normal">Gaucher, D., Friesen, J., & Kay, A. C. (2011). Journal of Personality and Social Psychology, 101(1), 109–128.</span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            The study established three foundational findings that power the <strong>EquiText</strong> rule-based NLP engine:
+        </p>
+
+        <ul class="space-y-3 text-xs sm:text-sm text-slate-700">
+            <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check-circle text-emerald-600 mt-1"></i>
+                <span><strong>Occupational Segregation:</strong> Job postings in traditionally male-dominated industries (e.g., Software Engineering, Data Science) contain significantly higher concentrations of masculine-coded language.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check-circle text-emerald-600 mt-1"></i>
+                <span><strong>Psychological Belonging:</strong> When qualified female applicants read postings with masculine wording, they experience lower anticipated institutional belonging and find the role less appealing.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check-circle text-emerald-600 mt-1"></i>
+                <span><strong>Simple Interventions Work:</strong> Neutralizing coded terminology into inclusive, performance-based requirements increases female applications by up to <strong>42%</strong> without lowering applicant competence.</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Scoring Methodology -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-calculator text-rose-600"></i> Gender Neutrality Index (GNI) Formula
+        </h3>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            EquiText evaluates job postings through a deterministic mathematical index scaled from 0% to 100%:
+        </p>
+
+        <div class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs sm:text-sm space-y-2">
+            <p class="text-emerald-400"># Gender Neutrality Index Calculation</p>
+            <p>Score = 100 - Imbalance_Penalty - Density_Penalty</p>
+            <p class="text-slate-400 text-xs">
+                Where Imbalance = |Masculine - Feminine| / Total_Coded * 40<br>
+                And Density = (Total_Coded / Total_Words) * 750 (capped at 60)
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+                <strong class="text-emerald-900 block mb-1">90% - 100%: Strongly Gender-Neutral</strong>
+                <span class="text-emerald-700">Balanced, objective, and skills-focused phrasing.</span>
+            </div>
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl">
+                <strong class="text-blue-900 block mb-1">70% - 89%: Mild Bias (Low Risk)</strong>
+                <span class="text-blue-700">Slight directional skew with minor word adjustments needed.</span>
+            </div>
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl">
+                <strong class="text-amber-900 block mb-1">50% - 69%: Moderate Bias</strong>
+                <span class="text-amber-700">Noticeable gender-coded jargon that should be revised.</span>
+            </div>
+            <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl">
+                <strong class="text-rose-900 block mb-1">&lt; 50%: High Gender Bias</strong>
+                <span class="text-rose-700">Dense exclusionary buzzwords actively inhibiting diverse talent.</span>
+            </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 text-center">
+            <a href="{% url 'bias_analyzer:index' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl text-sm transition-all shadow-md">
+                <i class="fa-solid fa-magnifying-glass"></i> Test Your Job Description Now
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

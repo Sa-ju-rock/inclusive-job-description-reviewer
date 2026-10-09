@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50 text-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bias-Free Job Description Reviewer | UN SDG 5{% endblock %}</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sdg5: {
+                            DEFAULT: '#FF3A21', // UN SDG 5 Official Red
+                            50: '#FFF1F0',
+                            100: '#FFE4E1',
+                            500: '#FF3A21',
+                            600: '#E5243B',
+                            700: '#C71D32',
+                        },
+                        brand: {
+                            dark: '#0F172A',
+                            light: '#F8FAFC',
+                            accent: '#6366F1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bias_analyzer/css/custom.css' %}">
+</head>
+<body class="flex flex-col min-h-full font-sans antialiased text-slate-800 bg-slate-50">
+
+    <!-- SDG 5 Global Header Strip -->
+    <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white text-xs sm:text-sm py-2 px-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center bg-white text-red-600 font-extrabold text-[11px] px-2 py-0.5 rounded shadow-sm">
+                    SDG 5
+                </span>
+                <span class="font-medium tracking-wide">
+                    United Nations Sustainable Development Goal 5: <strong>Gender Equality</strong>
+                </span>
+            </div>
+            <a href="{% url 'bias_analyzer:about' %}" class="underline text-red-100 hover:text-white transition-colors text-xs flex items-center gap-1">
+                Learn why gendered language matters <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand / Logo -->
+                <a href="{% url 'bias_analyzer:index' %}" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center text-white shadow-md shadow-rose-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-scale-balanced text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold tracking-tight text-slate-900 group-hover:text-rose-600 transition-colors">
+                            Equi<span class="text-rose-600">Text</span>
+                        </span>
+                        <span class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                            Bias-Free Job Reviewer
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-3">
+                    <a href="{% url 'bias_analyzer:index' %}" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-rose-600 hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-magnifying-glass text-slate-400 mr-1.5"></i> Analyzer
+                    </a>
+                    <a href="{% url 'bias_analyzer:history' %}" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-rose-600 hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-clock-rotate-left text-slate-400 mr-1.5"></i> Review History
+                    </a>
+                    <a href="{% url 'bias_analyzer:about' %}" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-rose-600 hover:bg-slate-100 transition-colors">
+                        <i class="fa-solid fa-circle-info text-slate-400 mr-1.5"></i> SDG 5 Research
+                    </a>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="flex items-center gap-2">
+                    <a href="{% url 'bias_analyzer:index' %}#analyze-form" class="inline-flex items-center gap-2 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow transition-all duration-150">
+                        <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                        <span>Scan Job Post</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Global Flash Notification Messages -->
+    {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        {% for message in messages %}
+        <div class="p-4 rounded-xl flex items-center justify-between text-sm shadow-sm transition-all {% if message.tags == 'error' %}bg-rose-50 border border-rose-200 text-rose-800{% elif message.tags == 'success' %}bg-emerald-50 border border-emerald-200 text-emerald-800{% else %}bg-blue-50 border border-blue-200 text-blue-800{% endif %}">
+            <div class="flex items-center gap-3">
+                {% if message.tags == 'error' %}
+                    <i class="fa-solid fa-circle-exclamation text-rose-500"></i>
+                {% elif message.tags == 'success' %}
+                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                {% else %}
+                    <i class="fa-solid fa-circle-info text-blue-500"></i>
+                {% endif %}
+                <span>{{ message }}</span>
+            </div>
+            <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Page Content Container -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 rounded-lg bg-rose-600 flex items-center justify-center text-white text-sm">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <span class="text-base font-bold text-slate-900">EquiText | SDG 5 Reviewer</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed max-w-md">
+                        Promoting UN Sustainable Development Goal 5 (Gender Equality) in recruitment. 
+                        By eliminating unconscious gender-coded language from job postings, we create equitable pathways for diverse talent in technology and leadership roles.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-semibold uppercase text-slate-400 tracking-wider mb-3">Features</h4>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li><a href="{% url 'bias_analyzer:index' %}" class="hover:text-rose-600">Bias Analysis Engine</a></li>
+                        <li><a href="{% url 'bias_analyzer:history' %}" class="hover:text-rose-600">Audit History Log</a></li>
+                        <li><a href="{% url 'bias_analyzer:about' %}" class="hover:text-rose-600">SDG 5 Research & Index</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-semibold uppercase text-slate-400 tracking-wider mb-3">Linguistic Research</h4>
+                    <p class="text-xs text-slate-500 leading-normal mb-2">
+                        Methodology grounded in peer-reviewed psychological research (Gaucher, Friesen, & Kay, 2011).
+                    </p>
+                    <span class="inline-flex items-center gap-1.5 text-xs text-rose-700 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-200">
+                        <i class="fa-solid fa-ribbon text-rose-600"></i> UN SDG 5 Target 5.5
+                    </span>
+                </div>
+            </div>
+            <div class="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+                <p>&copy; {% now "Y" %} EquiText - UN SDG 5 Gender Equality Initiative. Built with Python & Django.</p>
+                <p>Designed for Inclusive Hiring Practices.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global JavaScript -->
+    <script src="{% static 'bias_analyzer/js/main.js' %}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,195 @@
+{% extends "bias_analyzer/base.html" %}
+
+{% block title %}Scan Job Description | SDG 5 Bias-Free Reviewer{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+    <!-- Hero Section -->
+    <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold uppercase tracking-wider mb-4 shadow-xs">
+            <i class="fa-solid fa-venus-mars text-rose-600"></i>
+            UN SDG 5: Gender Equality in Technical Recruitment
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            Eliminate Gender Bias in <span class="bg-gradient-to-r from-rose-600 to-red-600 bg-clip-text text-transparent">Job Descriptions</span>
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
+            Unconscious gender-coded words like <em>"ninja"</em>, <em>"dominant"</em>, or <em>"nurturing"</em> secretly skew your applicant pool. 
+            Evaluate your job posts against research-backed linguistic criteria and replace biased wording instantly.
+        </p>
+    </div>
+
+    <!-- Main Scanner Card -->
+    <div id="analyze-form" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200/80 overflow-hidden">
+        
+        <!-- Quick Sample Presets Header Bar -->
+        <div class="bg-slate-50/80 border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">
+                    Quick Test Presets
+                </span>
+                <span class="text-xs text-slate-600">
+                    Try real-world job samples with pre-existing bias patterns:
+                </span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <button type="button" 
+                        onclick="loadPreset('masculine_tech')"
+                        class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-bolt text-blue-500"></i> "Rockstar" Tech Job (Biased)
+                </button>
+                <button type="button" 
+                        onclick="loadPreset('feminine_care')"
+                        class="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart text-purple-500"></i> Feminine Coded Sample
+                </button>
+                <button type="button" 
+                        onclick="loadPreset('balanced_neutral')"
+                        class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-check-double text-emerald-500"></i> Inclusive Job Sample
+                </button>
+            </div>
+        </div>
+
+        <!-- Form Body -->
+        <form method="POST" action="{% url 'bias_analyzer:index' %}" class="p-6 sm:p-8 space-y-6">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl text-sm text-rose-700">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <!-- Title Field -->
+            <div>
+                <label for="{{ form.title.id_for_label }}" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                    Job Posting Title <span class="text-slate-400 font-normal text-xs">(optional)</span>
+                </label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                <p class="mt-1 text-xs text-rose-600">{{ form.title.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Job Description Text Field -->
+            <div>
+                <div class="flex items-center justify-between mb-1.5">
+                    <label for="{{ form.original_text.id_for_label }}" class="block text-sm font-semibold text-slate-700">
+                        Job Description Content <span class="text-rose-600">*</span>
+                    </label>
+                    <div class="flex items-center gap-4 text-xs text-slate-500">
+                        <span id="char-count">0 characters</span>
+                        <span id="word-count">0 words</span>
+                        <button type="button" onclick="clearForm()" class="text-rose-600 hover:text-rose-700 font-medium">Clear</button>
+                    </div>
+                </div>
+
+                {{ form.original_text }}
+
+                {% if form.original_text.errors %}
+                <p class="mt-1 text-xs text-rose-600 font-medium">{{ form.original_text.errors.0 }}</p>
+                {% endif %}
+                <p class="mt-2 text-xs text-slate-500">
+                    Paste the entire job posting including responsibilities, requirements, and "about our culture" descriptions.
+                </p>
+            </div>
+
+            <!-- Submit Button Bar -->
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-xs text-slate-500 flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-emerald-600 text-sm"></i>
+                    <span>Zero data stored without your consent. Analyzed in real time.</span>
+                </div>
+                <button type="submit" 
+                        class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-semibold rounded-xl shadow-lg shadow-rose-600/30 hover:shadow-rose-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2.5">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    <span>Analyze for Gender Bias</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- SDG 5 Information / Value Proposition Grid -->
+    <div class="max-w-4xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg mb-4">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base mb-1.5">Rule-Based NLP Engine</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Screens text against academic gender-coding lexicons and high-aggression tech jargon that deters women from applying.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-4">
+                <i class="fa-solid fa-gauge-high"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base mb-1.5">Gender Neutrality Index</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Computes a normalized 0-100% score quantifying masculine and feminine word density and directional skew.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-4">
+                <i class="fa-solid fa-repeat"></i>
+            </div>
+            <h3 class="font-bold text-slate-900 text-base mb-1.5">Inclusive Replacements</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Provides concrete inclusive substitutes for every flagged term and automatically generates an improved posting version.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Embedded sample JSON for instantaneous preset switching -->
+{{ samples|json_script:"samples-data" }}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const samples = JSON.parse(document.getElementById('samples-data').textContent);
+    const textarea = document.getElementById('job-description-textarea');
+    const titleInput = document.getElementById('id_title');
+    const charCount = document.getElementById('char-count');
+    const wordCount = document.getElementById('word-count');
+
+    function updateCounts() {
+        if (!textarea) return;
+        const text = textarea.value.trim();
+        charCount.innerText = `${textarea.value.length} characters`;
+        const words = text ? text.split(/\s+/).length : 0;
+        wordCount.innerText = `${words} words`;
+    }
+
+    if (textarea) {
+        textarea.addEventListener('input', updateCounts);
+        updateCounts();
+    }
+
+    function loadPreset(key) {
+        if (!samples || !samples[key]) return;
+        const sample = samples[key];
+        if (titleInput) titleInput.value = sample.title;
+        if (textarea) {
+            textarea.value = sample.text;
+            updateCounts();
+            textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            textarea.classList.add('ring-2', 'ring-rose-400');
+            setTimeout(() => {
+                textarea.classList.remove('ring-2', 'ring-rose-400');
+            }, 800);
+        }
+    }
+
+    function clearForm() {
+        if (textarea) textarea.value = '';
+        if (titleInput) titleInput.value = '';
+        updateCounts();
+    }
+</script>
+{% endblock %}

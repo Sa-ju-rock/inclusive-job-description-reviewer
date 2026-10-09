@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="sdgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DC2626" />
+      <stop offset="50%" stop-color="#E11D48" />
+      <stop offset="100%" stop-color="#B91C1C" />
+    </linearGradient>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F43F5E" />
+      <stop offset="100%" stop-color="#DC2626" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FAFAFA" />
+    </linearGradient>
+    <!-- Soft Shadows -->
+    <filter id="shadowLg" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.08" />
+    </filter>
+    <filter id="shadowSm" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.06" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="900" fill="#F8FAFC" />
+
+  <!-- SDG 5 Global Header Strip -->
+  <rect width="1200" height="34" fill="url(#sdgGrad)" />
+  <rect x="40" y="7" width="52" height="20" rx="4" fill="#FFFFFF" />
+  <text x="66" y="21" font-size="11" font-weight="800" fill="#DC2626" text-anchor="middle">SDG 5</text>
+  <text x="104" y="21" font-size="12" font-weight="600" fill="#FFFFFF">United Nations Sustainable Development Goal 5: Gender Equality in Technical Recruitment</text>
+  <text x="1160" y="21" font-size="11" font-weight="500" fill="#FEE2E2" text-anchor="end">Target 5.5: Equal Opportunities &amp; Leadership</text>
+
+  <!-- Navigation Bar -->
+  <rect y="34" width="1200" height="66" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" />
+  <rect x="40" y="47" width="40" height="40" rx="10" fill="url(#logoGrad)" />
+  <!-- Scales Icon -->
+  <path d="M 60 55 L 60 77 M 52 61 L 68 61 M 52 61 L 48 71 M 52 61 L 56 71 M 48 71 L 56 71 M 68 61 L 64 71 M 68 61 L 72 71 M 64 71 L 72 71" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none" />
+  <text x="92" y="66" font-size="20" font-weight="800" fill="#0F172A">Equi<tspan fill="#E11D48">Text</tspan></text>
+  <text x="92" y="80" font-size="10" font-weight="700" fill="#64748B" letter-spacing="1">BIAS-FREE JOB REVIEWER</text>
+
+  <!-- Nav links -->
+  <text x="860" y="72" font-size="13" font-weight="600" fill="#64748B">Audit History</text>
+  <text x="970" y="72" font-size="13" font-weight="600" fill="#64748B">SDG 5 Research</text>
+  <rect x="1060" y="49" width="100" height="36" rx="8" fill="#E11D48" />
+  <text x="1110" y="72" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Scan Post</text>
+
+  <!-- Breadcrumb & Title Area -->
+  <text x="40" y="130" font-size="11" font-weight="700" fill="#64748B" letter-spacing="0.5">ANALYZER / <tspan fill="#E11D48">AUDIT REPORT #1</tspan></text>
+  <text x="40" y="160" font-size="24" font-weight="800" fill="#0F172A">Senior Rockstar Full-Stack Engineer (High Masculine Bias)</text>
+  <text x="40" y="180" font-size="12" font-weight="500" fill="#64748B">Analyzed on October 9, 2026 • Real-Time Rule-Based NLP Scanner (Gaucher et al. 2011)</text>
+
+  <!-- Export & Back Buttons -->
+  <rect x="940" y="142" width="100" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" />
+  <text x="990" y="165" font-size="12" font-weight="600" fill="#334155" text-anchor="middle">New Scan</text>
+  <rect x="1050" y="142" width="110" height="36" rx="8" fill="#0F172A" />
+  <text x="1105" y="165" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Export Report</text>
+
+  <!-- ================= MAIN SCOREBOARD CARD ================= -->
+  <g filter="url(#shadowLg)">
+    <rect x="40" y="200" width="1120" height="230" rx="16" fill="url(#cardGrad)" stroke="#E2E8F0" stroke-width="1" />
+  </g>
+
+  <!-- Gauge Section (Left Col) -->
+  <!-- Score Gauge Arc (r=56, circumference=351.85, 18% score -> offset=288.5) -->
+  <circle cx="160" cy="295" r="56" stroke="#F1F5F9" stroke-width="12" fill="none" />
+  <circle cx="160" cy="295" r="56" stroke="#F43F5E" stroke-width="12" stroke-linecap="round" fill="none" 
+          stroke-dasharray="351.85" stroke-dashoffset="288.5" transform="rotate(-90 160 295)" />
+  <text x="160" y="298" font-size="34" font-weight="800" fill="#0F172A" text-anchor="middle">18%</text>
+  <text x="160" y="318" font-size="10" font-weight="700" fill="#94A3B8" text-anchor="middle" letter-spacing="1">NEUTRALITY INDEX</text>
+
+  <!-- Severity Pill -->
+  <rect x="65" y="370" width="190" height="26" rx="13" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1" />
+  <circle cx="80" cy="383" r="3.5" fill="#E11D48" />
+  <text x="165" y="387" font-size="10.5" font-weight="700" fill="#9F1239" text-anchor="middle">High Bias (Action Required)</text>
+  <text x="160" y="414" font-size="11" font-weight="500" fill="#64748B" text-anchor="middle">Direction: <tspan font-weight="700" fill="#BE123C">Masculine-Skewed (+10)</tspan></text>
+
+  <!-- Divider Line -->
+  <line x1="285" y1="220" x2="285" y2="410" stroke="#E2E8F0" stroke-width="1" />
+
+  <!-- Density & Breakdown Section (Right Col) -->
+  <text x="315" y="235" font-size="16" font-weight="700" fill="#0F172A">Linguistic Density &amp; Word Balance Breakdown</text>
+  <text x="315" y="253" font-size="12" font-weight="500" fill="#64748B">Evaluated across 128 total words. High concentration of coded terms suppresses application rates.</text>
+
+  <!-- Masculine Density Bar -->
+  <text x="315" y="285" font-size="12" font-weight="700" fill="#1D4ED8">♂ Masculine-Coded Terms</text>
+  <text x="1120" y="285" font-size="12" font-weight="700" fill="#334155" text-anchor="end">10 words (7.8% density)</text>
+  <rect x="315" y="293" width="805" height="10" rx="5" fill="#F1F5F9" />
+  <rect x="315" y="293" width="620" height="10" rx="5" fill="#2563EB" />
+  <text x="315" y="318" font-size="10.5" font-weight="500" fill="#64748B">Heavy saturation of combat metaphors, superhero tropes, and hyper-individualistic phrasing.</text>
+
+  <!-- Feminine Density Bar -->
+  <text x="315" y="345" font-size="12" font-weight="700" fill="#7E22CE">♀ Feminine-Coded Terms</text>
+  <text x="1120" y="345" font-size="12" font-weight="700" fill="#334155" text-anchor="end">0 words (0.0% density)</text>
+  <rect x="315" y="353" width="805" height="10" rx="5" fill="#F1F5F9" />
+  <text x="315" y="378" font-size="10.5" font-weight="500" fill="#64748B">Zero communal words to counterbalance agentic phrasing.</text>
+
+  <!-- Mini Quick Stats -->
+  <g transform="translate(315, 392)">
+    <rect x="0" y="0" width="185" height="26" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1" />
+    <text x="92" y="17" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">Total: <tspan font-weight="800">128 Words</tspan></text>
+
+    <rect x="200" y="0" width="185" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1" />
+    <text x="292" y="17" font-size="11" font-weight="600" fill="#1E40AF" text-anchor="middle">Masculine: <tspan font-weight="800">10 Terms</tspan></text>
+
+    <rect x="400" y="0" width="185" height="26" rx="6" fill="#FAF5FF" stroke="#E9D5FF" stroke-width="1" />
+    <text x="492" y="17" font-size="11" font-weight="600" fill="#6B21A8" text-anchor="middle">Feminine: <tspan font-weight="800">0 Terms</tspan></text>
+
+    <rect x="600" y="0" width="205" height="26" rx="6" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1" />
+    <text x="702" y="17" font-size="11" font-weight="600" fill="#065F46" text-anchor="middle">Unique Categories: <tspan font-weight="800">8 Flagged</tspan></text>
+  </g>
+
+  <!-- ================= ANNOTATED TEXT VIEW CARD ================= -->
+  <g filter="url(#shadowLg)">
+    <rect x="40" y="450" width="1120" height="220" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" />
+  </g>
+
+  <!-- Tab Header -->
+  <rect x="40" y="450" width="1120" height="44" rx="16" fill="#F8FAFC" />
+  <rect x="52" y="456" width="145" height="32" rx="8" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" />
+  <text x="124" y="476" font-size="11" font-weight="700" fill="#0F172A" text-anchor="middle">Annotated View</text>
+
+  <rect x="205" y="456" width="155" height="32" rx="8" fill="none" />
+  <text x="282" y="476" font-size="11" font-weight="600" fill="#64748B" text-anchor="middle">Inclusive Revised Text</text>
+
+  <rect x="1000" y="456" width="145" height="32" rx="8" fill="#059669" />
+  <text x="1072" y="476" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">Copy Inclusive Text</text>
+
+  <!-- Text Content Area -->
+  <g transform="translate(65, 515)" font-size="13" font-weight="400" fill="#334155" line-height="24">
+    <!-- Line 1 -->
+    <text x="0" y="16">We are looking for a relentless</text>
+    <rect x="180" y="2" width="76" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="185" y="16" font-weight="700" fill="#1E40AF">Rockstar<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <rect x="264" y="2" width="58" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="269" y="16" font-weight="700" fill="#1E40AF">Ninja<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <text x="328" y="16">Engineer to</text>
+    <rect x="403" y="2" width="75" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="408" y="16" font-weight="700" fill="#1E40AF">dominate<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <text x="484" y="16">our backend architecture and</text>
+    <rect x="670" y="2" width="58" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="675" y="16" font-weight="700" fill="#1E40AF">crush<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+    <text x="734" y="16">technical debt!</text>
+
+    <!-- Line 2 -->
+    <text x="0" y="46">As an</text>
+    <rect x="40" y="32" width="88" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="45" y="46" font-weight="700" fill="#1E40AF">aggressive<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <text x="132" y="46">,</text>
+    <rect x="140" y="32" width="72" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="145" y="46" font-weight="700" fill="#1E40AF">fearless<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <text x="216" y="46">problem solver, you will</text>
+    <rect x="365" y="32" width="60" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="370" y="46" font-weight="700" fill="#1E40AF">tackle<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <text x="430" y="46">our most challenging roadmaps and</text>
+    <rect x="668" y="32" width="66" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="673" y="46" font-weight="700" fill="#1E40AF">enforce<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+    <text x="738" y="46">superior standards.</text>
+
+    <!-- Line 3 -->
+    <text x="0" y="76">You must be an</text>
+    <rect x="96" y="62" width="98" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="101" y="76" font-weight="700" fill="#1E40AF">independent<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <text x="198" y="76">individual who takes charge and</text>
+    <rect x="408" y="62" width="96" height="20" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1" />
+    <text x="413" y="76" font-weight="700" fill="#1E40AF">outperforms<tspan font-size="9" fill="#1D4ED8"> [M]</tspan></text>
+
+    <text x="508" y="76">the competition across high-stakes deployments.</text>
+  </g>
+
+  <!-- Tooltip Simulation Overlay -->
+  <g transform="translate(230, 560)" filter="url(#shadowSm)">
+    <rect x="0" y="0" width="260" height="68" rx="8" fill="#0F172A" />
+    <path d="M 30 0 L 36 -6 L 42 0 Z" fill="#0F172A" />
+    <text x="12" y="18" font-size="11" font-weight="700" fill="#93C5FD">Masculine-Coded: "ninja"</text>
+    <text x="12" y="34" font-size="10" font-weight="400" fill="#CBD5E1">Hyper-masculine jargon implying solitary bravado.</text>
+    <text x="12" y="52" font-size="10.5" font-weight="700" fill="#34D399">Try: expert engineer, talented specialist</text>
+  </g>
+
+  <!-- ================= REPLACEMENT CARDS SECTION ================= -->
+  <text x="40" y="700" font-size="16" font-weight="700" fill="#0F172A">Concrete Inclusive Replacements</text>
+  <text x="1160" y="700" font-size="12" font-weight="600" fill="#64748B" text-anchor="end">8 terms flagged</text>
+
+  <!-- Card 1: Rockstar -->
+  <rect x="40" y="715" width="265" height="155" rx="12" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1" />
+  <rect x="52" y="725" width="75" height="22" rx="4" fill="#EFF6FF" />
+  <text x="60" y="740" font-size="12" font-weight="800" fill="#1E40AF">"rockstar"</text>
+  <text x="290" y="740" font-size="10" font-weight="700" fill="#64748B" text-anchor="end">1× in text</text>
+  <text x="52" y="765" font-size="10" font-weight="500" fill="#64748B">Exclusionary tech-bro trope that deters diverse candidates.</text>
+  <text x="52" y="790" font-size="9" font-weight="700" fill="#94A3B8" letter-spacing="0.5">RECOMMENDED REPLACEMENTS:</text>
+  <rect x="52" y="800" width="135" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="60" y="815" font-size="10" font-weight="600" fill="#0F172A">→ skilled professional</text>
+  <rect x="52" y="828" width="150" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="60" y="843" font-size="10" font-weight="600" fill="#0F172A">→ experienced developer</text>
+
+  <!-- Card 2: Ninja -->
+  <rect x="325" y="715" width="265" height="155" rx="12" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1" />
+  <rect x="337" y="725" width="65" height="22" rx="4" fill="#EFF6FF" />
+  <text x="345" y="740" font-size="12" font-weight="800" fill="#1E40AF">"ninja"</text>
+  <text x="575" y="740" font-size="10" font-weight="700" fill="#64748B" text-anchor="end">1× in text</text>
+  <text x="337" y="765" font-size="10" font-weight="500" fill="#64748B">Hyper-masculine jargon implying extreme individual bravado.</text>
+  <text x="337" y="790" font-size="9" font-weight="700" fill="#94A3B8" letter-spacing="0.5">RECOMMENDED REPLACEMENTS:</text>
+  <rect x="337" y="800" width="115" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="345" y="815" font-size="10" font-weight="600" fill="#0F172A">→ expert engineer</text>
+  <rect x="337" y="828" width="130" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="345" y="843" font-size="10" font-weight="600" fill="#0F172A">→ talented specialist</text>
+
+  <!-- Card 3: Dominate -->
+  <rect x="610" y="715" width="265" height="155" rx="12" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1" />
+  <rect x="622" y="725" width="80" height="22" rx="4" fill="#EFF6FF" />
+  <text x="630" y="740" font-size="12" font-weight="800" fill="#1E40AF">"dominate"</text>
+  <text x="860" y="740" font-size="10" font-weight="700" fill="#64748B" text-anchor="end">1× in text</text>
+  <text x="622" y="765" font-size="10" font-weight="500" fill="#64748B">Combative framing that deters relationship-oriented talent.</text>
+  <text x="622" y="790" font-size="9" font-weight="700" fill="#94A3B8" letter-spacing="0.5">RECOMMENDED REPLACEMENTS:</text>
+  <rect x="622" y="800" width="70" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="630" y="815" font-size="10" font-weight="600" fill="#0F172A">→ lead</text>
+  <rect x="622" y="828" width="85" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="630" y="843" font-size="10" font-weight="600" fill="#0F172A">→ excel in</text>
+
+  <!-- Card 4: Crush -->
+  <rect x="895" y="715" width="265" height="155" rx="12" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1" />
+  <rect x="907" y="725" width="65" height="22" rx="4" fill="#EFF6FF" />
+  <text x="915" y="740" font-size="12" font-weight="800" fill="#1E40AF">"crush"</text>
+  <text x="1145" y="740" font-size="10" font-weight="700" fill="#64748B" text-anchor="end">1× in text</text>
+  <text x="907" y="765" font-size="10" font-weight="500" fill="#64748B">Aggressive pressure framing alienating team players.</text>
+  <text x="907" y="790" font-size="9" font-weight="700" fill="#94A3B8" letter-spacing="0.5">RECOMMENDED REPLACEMENTS:</text>
+  <rect x="907" y="800" width="75" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="915" y="815" font-size="10" font-weight="600" fill="#0F172A">→ achieve</text>
+  <rect x="907" y="828" width="75" height="22" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <text x="915" y="843" font-size="10" font-weight="600" fill="#0F172A">→ resolve</text>
+
+</svg>
